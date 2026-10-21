@@ -57,47 +57,78 @@
 
     <a-entity id="marcador" mindar-image-target="targetIndex: 0">
 
-      <!-- Texto principal -->
-      <a-text
-        value="DARK"
-        color="#FFFFFF"
-        align="center"
-        width="3"
-        position="0 0.3 0"
-        rotation="0 0 0"
-        side="double">
-      </a-text>
+      <!-- grupo completo -->
+      <a-entity
+        id="grupo-dark"
+        position="0 0.15 0"
+        animation="property: position; to: 0 0.20 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine">
 
-      <!-- Fondo del texto para que se vea mejor -->
-      <a-plane
-        color="#111111"
-        opacity="0.75"
-        width="2.4"
-        height="0.8"
-        position="0 0.3 -0.01">
-      </a-plane>
+        <!-- aro exterior -->
+        <a-ring
+          color="#168BCD"
+          radius-inner="0.70"
+          radius-outer="0.80"
+          position="0 0.05 0.02"
+          rotation="0 0 0"
+          material="opacity: 0.85; side: double"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear">
+        </a-ring>
 
-      <!-- Texto secundario -->
-      <a-text
-        value="Serie inspirada en un ambiente misterioso"
-        color="#FFD700"
-        align="center"
-        width="2.6"
-        position="0 -0.15 0"
-        rotation="0 0 0"
-        side="double">
-      </a-text>
+        <!-- panel de fondo -->
+        <a-plane
+          color="#111111"
+          width="2.7"
+          height="1.2"
+          position="0 0.18 -0.03"
+          material="opacity: 0.70; side: double">
+        </a-plane>
 
-      <!-- Efecto visual extra -->
-      <a-ring
-        color="#168BCD"
-        radius-inner="0.45"
-        radius-outer="0.55"
-        position="0 0 0.1"
-        rotation="90 0 0"
-        animation="property: rotation; to: 90 360 0; loop: true; dur: 4000; easing: linear">
-      </a-ring>
+        <!-- brillo detrás -->
+        <a-plane
+          color="#1d4e89"
+          width="2.9"
+          height="1.35"
+          position="0 0.18 -0.05"
+          material="opacity: 0.22; side: double">
+        </a-plane>
 
+        <!-- TEXTO 3D FALSO: capas traseras -->
+        <a-text value="DARK" color="#0a0a0a" align="center" width="3.4" position="0 0.32 -0.10"></a-text>
+        <a-text value="DARK" color="#111111" align="center" width="3.4" position="0 0.32 -0.08"></a-text>
+        <a-text value="DARK" color="#1a1a1a" align="center" width="3.4" position="0 0.32 -0.06"></a-text>
+        <a-text value="DARK" color="#222222" align="center" width="3.4" position="0 0.32 -0.04"></a-text>
+        <a-text value="DARK" color="#2d2d2d" align="center" width="3.4" position="0 0.32 -0.02"></a-text>
+
+        <!-- capa principal del texto -->
+        <a-text
+          value="DARK"
+          color="#ffffff"
+          align="center"
+          width="3.4"
+          position="0 0.32 0.00"
+          animation="property: rotation; to: 0 8 0; dir: alternate; dur: 1800; loop: true; easing: easeInOutSine">
+        </a-text>
+
+        <!-- sombra suave -->
+        <a-text
+          value="DARK"
+          color="#6ec6ff"
+          align="center"
+          width="3.45"
+          position="0.01 0.31 -0.01"
+          material="opacity: 0.35">
+        </a-text>
+
+        <!-- subtitulo -->
+        <a-text
+          value="Misterio y tiempo"
+          color="#ffd166"
+          align="center"
+          width="2.2"
+          position="0 -0.12 0.01">
+        </a-text>
+
+      </a-entity>
     </a-entity>
   </a-scene>
 
