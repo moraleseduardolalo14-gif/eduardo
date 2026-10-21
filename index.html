@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,16 +5,16 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-  <title>DARK - Realidad Aumentada 3D</title>
+  <title>DARK - Letras 3D</title>
 
-  <!-- Libreria A-Frame -->
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-  <!-- Libreria MindAR -->
+  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-  <!-- Libreria para letras 3D reales -->
-  <script src="https://unpkg.com/aframe-text-geometry-component/dist/aframe-text-geometry-component.min.js"></script>
+  <!-- Letras tridimensionales -->
+  <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
 
   <style>
     html, body {
@@ -59,13 +58,14 @@
   </div>
 
   <a-scene
-    mindar-image="imageTargetSrc: ./target.mind; autoStart: true;"
+    mindar-image="imageTargetSrc: ./target.mind;
+                  autoStart: true;"
     color-space="sRGB"
     renderer="colorManagement: true;"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
 
-    <!-- Fuente para las letras 3D -->
+    <!-- Fuente 3D -->
     <a-assets>
       <a-asset-item
         id="font3d"
@@ -79,7 +79,7 @@
       look-controls="enabled: false">
     </a-camera>
 
-    <!-- Imagen que sera reconocida -->
+    <!-- Marcador -->
     <a-entity
       id="marcador"
       mindar-image-target="targetIndex: 0">
@@ -87,59 +87,60 @@
       <!-- Iluminacion -->
       <a-entity
         light="type: ambient;
-               color: #ffffff;
-               intensity: 1.4">
+               intensity: 1.3;
+               color: #ffffff">
       </a-entity>
 
       <a-entity
         light="type: directional;
-               color: #ffffff;
-               intensity: 2"
+               intensity: 2;
+               color: #ffffff"
         position="-1 2 3">
       </a-entity>
 
       <a-entity
         light="type: point;
-               color: #4fc3f7;
                intensity: 1.5;
+               color: #66baff;
                distance: 5"
-        position="1 0.5 1">
+        position="1 1 2">
       </a-entity>
 
-      <!-- Grupo principal -->
+      <!-- Grupo central -->
       <a-entity
         id="grupo-dark"
-        position="0 0 0.12"
+        position="0 0 0.20"
         animation="property: position;
-                   from: 0 0 0.12;
-                   to: 0 0 0.18;
+                   from: 0 0 0.20;
+                   to: 0 0 0.27;
                    dir: alternate;
-                   dur: 1800;
+                   dur: 2000;
                    loop: true;
                    easing: easeInOutSine">
 
-        <!-- Letras DARK tridimensionales -->
+        <!-- Texto DARK 3D -->
         <a-entity
           id="texto3d"
+          position="-0.62 -0.13 0"
           text-geometry="value: DARK;
                          font: #font3d;
                          size: 0.33;
                          height: 0.12;
-                         curveSegments: 12;
+                         curveSegments: 10;
                          bevelEnabled: true;
                          bevelThickness: 0.012;
                          bevelSize: 0.008;
                          bevelSegments: 3;"
-          material="color: #e8edf5;
-                    metalness: 0.65;
+          material="color: #e6edf7;
+                    metalness: 0.6;
                     roughness: 0.3;
-                    emissive: #12365b;
-                    emissiveIntensity: 0.18;"
+                    emissive: #14375a;
+                    emissiveIntensity: 0.15;"
           animation="property: rotation;
                      from: 0 -8 0;
                      to: 0 8 0;
                      dir: alternate;
-                     dur: 2400;
+                     dur: 2500;
                      loop: true;
                      easing: easeInOutSine">
         </a-entity>
@@ -154,77 +155,36 @@
     const escena = document.querySelector("a-scene");
     const marcador = document.querySelector("#marcador");
     const aviso = document.querySelector("#aviso");
-    const texto = document.querySelector("#texto3d");
+    const texto3d = document.querySelector("#texto3d");
 
-    // Centrar las letras 3D sobre el marcador
-    texto.addEventListener("loaded", centrarTexto);
-    texto.addEventListener(
-      "componentchanged",
-      function(evento) {
-        if (evento.detail.name === "text-geometry") {
-          centrarTexto();
-        }
-      }
-    );
-
-    function centrarTexto() {
-      const objeto = texto.getObject3D("mesh");
-
-      if (!objeto || !objeto.geometry) {
-        return;
-      }
-
-      objeto.geometry.computeBoundingBox();
-
-      const caja = objeto.geometry.boundingBox;
-
-      if (caja) {
-        const ancho = caja.max.x - caja.min.x;
-        const alto = caja.max.y - caja.min.y;
-
-        objeto.position.x =
-          -(caja.min.x + ancho / 2);
-
-        objeto.position.y =
-          -(caja.min.y + alto / 2);
-      }
-    }
-
-    // Camara lista
     escena.addEventListener("arReady", () => {
       aviso.textContent =
-        "Camara lista. Apunta hacia la imagen DARK";
+        "Camara lista. Apunta a la imagen DARK";
       aviso.style.background = "#153451";
     });
 
-    // Error de realidad aumentada
     escena.addEventListener("arError", () => {
       aviso.textContent =
-        "Error al iniciar MindAR. Revisa target.mind";
+        "Error al iniciar MindAR";
       aviso.style.background = "#9B2226";
     });
 
-    // Marcador encontrado
     marcador.addEventListener("targetFound", () => {
       aviso.textContent =
-        "DARK 3D activado";
+        "Marcador detectado. DARK 3D activado";
       aviso.style.background = "#147D40";
-
-      setTimeout(() => {
-        aviso.style.display = "none";
-      }, 1800);
     });
 
-    // Marcador perdido
     marcador.addEventListener("targetLost", () => {
-      aviso.style.display = "block";
       aviso.textContent =
-        "Apunta nuevamente hacia la imagen DARK";
-      aviso.style.background = "#153451";
+        "Marcador perdido. Vuelve a apuntar";
+      aviso.style.background = "#B36B00";
     });
 
+    texto3d.addEventListener("object3dset", () => {
+      console.log("Objeto 3D actualizado");
+    });
   </script>
 
 </body>
 </html>
-
